@@ -107,7 +107,7 @@ font-size:14px;
 <button class="btn-secondary" onclick="getContact()">👤 Pilih dari Kontak</button>
 
 <textarea id="message" placeholder="Tulis pesan..."></textarea>
-<input type="text" placeholder="Pilih tanggal..." onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'">
+<input type="datetime-local" id="time">
     
 <button onclick="schedule()">Jadwalkan</button>
 <div id="preview-container" style="margin-top: 15px; display: none;">
