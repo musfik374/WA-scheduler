@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WA Scheduler</title>
+
+<style>
+.btn-secondary {
+    background: #64748b;
+    margin-bottom: 5px;
+}
+
+body{
+font-family:system-ui;
+background:#0f172a;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+height:100vh;
+}
+
+.card{
+background:#1e293b;
+padding:25px;
+border-radius:16px;
+width:320px;
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+input, textarea, button{
+width:100%;
+margin-top:10px;
+padding:10px;
+border-radius:10px;
+border:none;
+}
+
+button{
+background:#22c55e;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+#status{
+margin-top:15px;
+opacity:0.8;
+font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+<h2>WA Message Scheduler</h2>
+<input type="text" id="number" placeholder="628xxxx">
+<button class="btn-secondary" onclick="getContact()">👤 Pilih dari Kontak</button>
+
+<textarea id="message" placeholder="Tulis pesan"></textarea>
+<input type="datetime-local" id="time">
+
+<button onclick="schedule()">Jadwalkan</button>
+
+<div id="status"></div>
+</div>
+
+<script>
+async function getContact() {
+  const props = ['name', 'tel'];
+  const opts = {multiple: false};
+
+  try {
+    const contacts = await navigator.contacts.select(props, opts);
+    if (contacts.length) {
+      // Ambil nomor telp, hapus spasi/simbol agar jadi angka saja
+      let rawNumber = contacts[0].tel[0].replace(/\D/g, '');
+      // Pastikan formatnya 62...
+      if(rawNumber.startsWith('0')) rawNumber = '62' + rawNumber.slice(1);
+      document.getElementById("number").value = rawNumber;
+    }
+  } catch (ex) {
+    alert("Browser kamu tidak mendukung pilih kontak.");
+  }
+}
+
+
+let timer;
+
+function schedule(){
+
+let number = document.getElementById("number").value;
+let message = encodeURIComponent(document.getElementById("message").value);
+let time = new Date(document.getElementById("time").value).getTime();
+
+clearInterval(timer);
+
+timer = setInterval(function(){
+
+let now = new Date().getTime();
+let diff = time - now;
+
+if(diff <= 0){
+
+clearInterval(timer);
+
+let url = `https://wa.me/${number}?text=${message}`;
+window.open(url, "_blank");
+
+document.getElementById("status").innerText="Waktunya mengirim pesan 🚀";
+
+}else{
+
+let minutes = Math.floor(diff/60000);
+let seconds = Math.floor((diff%60000)/1000);
+
+document.getElementById("status").innerText=
+"Dikirim dalam "+minutes+"m "+seconds+"s";
+
+}
+
+},1000);
+
+}
+
+</script>
+
+</body>
+</html>
