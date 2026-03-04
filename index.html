@@ -71,7 +71,12 @@ font-size:14px;
 <input type="datetime-local" id="time">
 
 <button onclick="schedule()">Jadwalkan</button>
-
+<div id="preview-container" style="margin-top: 15px; display: none;">
+    <p style="font-size: 12px; color: #94a3b8; margin-bottom: 5px;">Preview Pesan:</p>
+    <div id="preview-text" style="background: #0f172a; padding: 10px; border-radius: 8px; font-size: 14px; border-left: 4px solid #22c55e; word-wrap: break-word;">
+        </div>
+</div>
+    
 <div id="status"></div>
 </div>
 
@@ -93,7 +98,21 @@ async function getContact() {
     alert("Browser kamu tidak mendukung pilih kontak.");
   }
 }
+// Ambil elemen
+const messageInput = document.getElementById("message");
+const previewContainer = document.getElementById("preview-container");
+const previewText = document.getElementById("preview-text");
 
+// Fungsi untuk update preview
+messageInput.addEventListener("input", function() {
+    if (this.value.trim() !== "") {
+        previewContainer.style.display = "block";
+        previewText.innerText = this.value;
+    } else {
+        previewContainer.style.display = "none";
+    }
+});
+      
 
 let timer;
 
