@@ -103,12 +103,12 @@ font-size:14px;
     
 <div class="card">
 <h2>WA Message Scheduler</h2>
-<input type="text" id="number" placeholder="628xxxx">
+<input type="text" id="number" placeholder="Masukan nomor, cth :628xxxx">
 <button class="btn-secondary" onclick="getContact()">👤 Pilih dari Kontak</button>
 
 <textarea id="message" placeholder="Tulis pesan"></textarea>
-<input type="datetime-local" id="time">
-
+<input type="text" placeholder="Pilih tanggal..." onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'">
+    
 <button onclick="schedule()">Jadwalkan</button>
 <div id="preview-container" style="margin-top: 15px; display: none;">
     <p style="font-size: 12px; color: #94a3b8; margin-bottom: 5px;">Preview Pesan:</p>
